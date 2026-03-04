@@ -89,12 +89,10 @@ where
         return tokens_to_string(ts, acc, splices, false);
     }
 
-    let Some(next) = ts.peek().cloned() else {
-        return acc;
-    };
+    let next = ts.peek().cloned();
 
     match (&tok, &next) {
-        (TokenTree::Punct(p), TokenTree::Group(g))
+        (TokenTree::Punct(p), Some(TokenTree::Group(g)))
             if p.as_char() == '$' && g.delimiter() == Delimiter::Brace =>
         {
             let _ = ts.next();
@@ -113,7 +111,7 @@ where
             acc = acc + &p.to_string();
             true
         }
-        TokenTree::Punct(p) if p.as_char() == '#' => {
+        TokenTree::Punct(p) if p.as_char() == '#' || p.as_char() == '@' => {
             // Still append the space for cases where the pound appears in the selector
             acc = acc + " " + &p.to_string();
             true
@@ -128,13 +126,13 @@ where
         }
     };
 
-    let next = next.to_string();
+    if let Some(next_string) = next.map(|t| t.to_string()) {
+        // Remove the space
+        if UNITS.contains(next_string.as_str()) {
+            let _ = ts.next();
 
-    // Remove the space
-    if UNITS.contains(next.as_str()) {
-        let _ = ts.next();
-
-        acc += &next;
+            acc += &next_string;
+        }
     }
 
     tokens_to_string(ts, acc, splices, skip_next_space)
