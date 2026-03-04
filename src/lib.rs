@@ -113,6 +113,11 @@ where
             acc = acc + &p.to_string();
             true
         }
+        TokenTree::Punct(p) if p.as_char() == '#' => {
+            // Still append the space for cases where the pound appears in the selector
+            acc = acc + " " + &p.to_string();
+            true
+        }
         _ if skip_next_space => {
             acc = acc + &tok.to_string();
             false
