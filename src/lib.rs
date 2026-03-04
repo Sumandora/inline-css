@@ -108,8 +108,8 @@ where
         _ => (),
     };
 
-    let is_minus = match tok {
-        TokenTree::Punct(p) if p.as_char() == '-' => {
+    let skip_next_space = match tok {
+        TokenTree::Punct(p) if p.as_char() == '-' || p.as_char() == ':' => {
             acc = acc + &p.to_string();
             true
         }
@@ -137,7 +137,7 @@ where
         acc += &next;
     }
 
-    tokens_to_string(ts, acc, splices, is_minus)
+    tokens_to_string(ts, acc, splices, skip_next_space)
 }
 
 #[proc_macro]
