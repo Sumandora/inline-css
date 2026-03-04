@@ -109,7 +109,7 @@ where
     };
 
     let skip_next_space = match tok {
-        TokenTree::Punct(p) if p.as_char() == '-' || p.as_char() == ':' => {
+        TokenTree::Punct(p) if p.as_char() == '-' || p.as_char() == ':' || p.as_char() == '.' => {
             acc = acc + &p.to_string();
             true
         }
