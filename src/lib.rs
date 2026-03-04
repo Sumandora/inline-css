@@ -18,7 +18,7 @@
 //!             * {
 //!                 font-family: "Times New Roman";
 //!                 /* It even supports splicing! */
-//!                 font-size: ${(my_precious_font_size * 2 - 4) / 2 + 2}pt;
+//!                 font-size: ${format!("{}pt", (my_precious_font_size * 2 - 4) / 2 + 2)};
 //!             }
 //!         },
 //!         "body{margin:0;padding:12em}*{font-family:Times New Roman;font-size:36pt}"
@@ -98,10 +98,10 @@ where
             let _ = ts.next();
 
             // Pray that lightningcss wont pull this apart...
-            acc = acc + &construct_splice_tag(splices.len());
+            acc = acc + " " + &construct_splice_tag(splices.len());
             splices.push(g.stream());
 
-            return tokens_to_string(ts, acc, splices, true);
+            return tokens_to_string(ts, acc, splices, false);
         }
         _ => (),
     };

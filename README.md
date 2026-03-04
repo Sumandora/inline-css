@@ -20,7 +20,7 @@ fn main() {
             * {
                 font-family: "Times New Roman";
                 /* It even supports splicing! */
-                font-size: ${(my_precious_font_size * 2 - 4) / 2 + 2}pt;
+                font-size: ${format!("{}pt", (my_precious_font_size * 2 - 4) / 2 + 2)};
             }
         },
         "body{margin:0;padding:12em}*{font-family:Times New Roman;font-size:36pt}"

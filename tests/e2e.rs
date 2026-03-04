@@ -20,8 +20,8 @@ mod tests {
                 }
 
                 a {
-                    font-size: ${x}${y}em;
-                    font-weight: ${(69 + 420 + 1337) / 3}deg;
+                    font-size: ${format!("{}em", x * 100 + y)};
+                    font-weight: ${format!("{}deg", (69 + 420 + 1337) / 3)};
                 }
             },
             "body{margin:0;padding:12em}*{font-family:Times New Roman;font-size:36pt}a{font-size:1514em;font-weight:608deg}"
